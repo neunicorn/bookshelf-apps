@@ -8,31 +8,45 @@
   </head>
   <body>
     <header>
-      <h1>BookShelf Application</h1>
       <nav>
+        <div class="judul-nav">
+          <h1>BookShelf Application</h1>
+        </div>
         <ul>
-          <li>Input Book</li>
-          <li>BookShelf</li>
+          <li>
+            <a href="#"><b>+</b> Books</a>
+          </li>
+          <li><a href="./pages/bookshelf.html">Bookshelf</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <div class="container">
-        <h2>Tambahkan Buku Baru</h2>
-        <form action="" id="bookshelf-form">
-          <div class="contianer input-wrapper">
+        <div class="h2-wrapper">
+          <h2>Tambahkan Buku</h2>
+        </div>
+        <form class="bookshelf-form" id="bookshelf-form">
+          <div class="wrapper">
             <label for="judul">Judul Buku</label>
-            <input type="text" required />
+            <div class="input-wrapper">
+              <input type="text" id="judul" name="judul" required />
+            </div>
           </div>
-          <div class="contianer input-wrapper">
-            <label for="judul">Judul Buku</label>
-            <input type="text" required />
+          <div class="wrapper">
+            <label for="penulis">Penulis Buku</label>
+            <div class="input-wrapper">
+              <input type="text" id="penulis" name="penulis" required />
+            </div>
           </div>
-          <div class="contianer input-wrapper">
-            <label for="judul">Judul Buku</label>
-            <input type="text" required />
+          <div class="wrapper">
+            <label for="tahun">Tahun Terbit</label>
+            <div class="input-wrapper">
+              <input type="number" id="tahun" name="tahun" required />
+            </div>
           </div>
-          <div class="input-wrapper"><button type="submit">Submit</button></div>
+          <div class="input-wrapper">
+            <button type="submit" id="submit">Submit</button>
+          </div>
         </form>
       </div>
     </main>
@@ -41,6 +55,6 @@
         <p>© 2021 - Bookshelf App</p>
       </div>
     </footer>
-    <script src="js/main.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>

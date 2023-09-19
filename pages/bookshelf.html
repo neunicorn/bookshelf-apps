@@ -8,21 +8,33 @@
   </head>
   <body>
     <header>
-      <h1>BookShelf Application</h1>
       <nav>
+        <div class="judul-nav">
+          <h1>BookShelf Application</h1>
+        </div>
         <ul>
-          <li>Input Book</li>
-          <li>BookShelf</li>
+          <li><a href="../index.html">+ Books</a></li>
+          <li><a href="#">Bookshelf</a></li>
         </ul>
       </nav>
     </header>
     <main>
-      <div class="container">
-        <div class="book-ongoing"></div>
-        <div class="book-done"></div>
+      <div class="search-wrapper">
+        <input type="text" id="search" name="search" placeholder="Search..." />
+      </div>
+      <div class="container-inside">
+        <div id="book-none">
+          <h2>Belum ada buku yang ditambahkan</h2>
+        </div>
+        <div class="book-ongoing" id="book-ongoing"></div>
+        <div class="book-done" id="book-done"></div>
       </div>
     </main>
-    <footer></footer>
-    <script src="../js/bookshelf.js"></script>
+    <footer>
+      <div class="copyright">
+        <p>© 2021 - Bookshelf App</p>
+      </div>
+    </footer>
+    <script src="../js/index.js"></script>
   </body>
 </html>
