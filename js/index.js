@@ -3,6 +3,14 @@ const RENDER_BOOKS_EVENT = "RENDER_BOOKS";
 
 let books = [];
 
+function isStorageExist() {
+  if (typeof Storage === undefined) {
+    alert("Browser kamu tidak mendukung local storage");
+    return false;
+  }
+  return true;
+}
+
 function generateId() {
   return +new Date();
 }
@@ -31,16 +39,116 @@ function addBook() {
 }
 
 function saveBook() {
+  if (!isStorageExist()) return;
+
   const booksJSON = JSON.stringify(books);
   localStorage.setItem(BOOK_LOCAL_STORAGE_KEY, booksJSON);
 }
 
+function makeBookShelf(books) {
+  const { id, judul, penulis, tahun, isComplete } = books;
+
+  const judulBuku = document.createElement("h3");
+  judulBuku.innerText = judul;
+
+  const penulisBuku = document.createElement("p");
+  penulisBuku.innerText = penulis;
+
+  const tahunBuku = document.createElement("p");
+  tahunBuku.innerText = tahun;
+
+  const textContainer = document.createElement("div");
+  textContainer.classList.add("text-container");
+  textContainer.append(judulBuku, penulisBuku, tahunBuku);
+
+  const iconContainer = document.createElement("div");
+  iconContainer.classList.add("icon-container");
+
+  const container = document.createElement("div");
+  container.classList.add("book-container");
+  container.append(textContainer);
+  container.setAttribute("id", `book-${id}`);
+
+  if (isComplete) {
+    const unmarkedButton = document.createElement("button");
+    unmarkedButton.classList.add("unmarked-button");
+    unmarkedButton.addEventListener("click", function () {
+      unmarkedBook(id);
+    });
+
+    iconContainer.append(unmarkedButton);
+  } else {
+    const markedButton = document.createElement("button");
+    markedButton.classList.add("marked-button");
+    markedButton.addEventListener("click", function () {
+      markedBook(id);
+    });
+
+    iconContainer.append(markedButton);
+  }
+
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-button");
+  deleteButton.addEventListener("click", function () {
+    deleteBook(id);
+  });
+
+  iconContainer.append(deleteButton);
+
+  container.append(iconContainer);
+
+  return container;
+}
+
+function markedBook(id) {}
+
+function unmarkedBook(id) {}
+
+function deleteBook(id) {}
 // memasukan buku dari local storage ke array books ketika halaman di load
 window.addEventListener("load", () => {
   const booksJSON = localStorage.getItem(BOOK_LOCAL_STORAGE_KEY);
   if (booksJSON !== null) {
     books = JSON.parse(booksJSON);
   }
+  document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 });
 
-document.getElementById("submit").addEventListener("click", addBook);
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("submit").addEventListener("click", addBook);
+});
+
+document.addEventListener(RENDER_BOOKS_EVENT, () => {
+  const bookOngoing = document.getElementById("book-ongoing");
+  const bookDone = document.getElementById("book-done");
+
+  //   bookOngoing.innerHTML = "";
+  //   bookDone.innerHTML = "";
+
+  if (books.length !== 0) {
+    document.getElementById("book-empty").classList.add("hidden");
+  } else {
+    document.getElementById("book-empty").classList.remove("hidden");
+  }
+
+  if (!books.includes(true)) {
+    document.getElementById("book-done").classList.add("hidden");
+  } else {
+    document.getElementById("book-done").classList.remove("hidden");
+  }
+
+  //   if (!books.includes(false)) {
+  //     document.getElementById("book-ongoing").classList.add("hidden");
+  //   } else {
+  //     document.getElementById("book-ongoing").classList.remove("hidden");
+  //   }
+
+  for (const book of books) {
+    const bookElement = makeBookShelf(book);
+    if (book.isComplete) {
+      bookDone.append(bookElement);
+    } else {
+      bookOngoing.append(bookElement);
+    }
+  }
+});

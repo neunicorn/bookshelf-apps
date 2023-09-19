@@ -81,9 +81,11 @@ main{
 
 .search-wrapper{
     display: flex;
-    width: 600px;
     flex-direction: column;
     justify-content: space-evenly;
+
+    width: 800px;
+    height: 40px;
     margin-top: 20px;
 }
 
@@ -91,13 +93,16 @@ main{
     background-color: white;
     border: none;
     box-shadow: -4px -4px 55px -4px rgba(0,0,0,0.33);
+
+    width: 100%;
 }
 .bookshelf-form {
     display: flex;
-    width: 400px;
-    height: 300px;
     flex-direction: column;
     justify-content: space-evenly;
+
+    width: 400px;
+    height: 300px;
 }
 
 h2{
@@ -142,15 +147,96 @@ button:hover {
 .container-inside{
     display: flex;
     box-shadow: -4px -4px 55px -4px rgba(0,0,0,0.33);
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    width: 600px;
+    min-width: 800px;
     min-height: 500px;
     border-radius: 10px;
     background-color: #e5d3b3;
     margin: 20px
 }
+
+.icon-container {
+    display: flex;
+
+}
+
+.marked-button{
+    width: 30px;
+    height: 30px;
+
+    margin : 0 10px;
+
+    background: url(../assets/check-black.svg);
+    background-size: contain;
+    border: none;
+}
+.marked-button:hover{
+    background: url(../assets/check-green.svg);
+    background-size: contain;
+}
+
+.delete-button{
+    width: 30px;
+    height: 30px;
+
+    margin : 0 10px;
+
+    background: url(../assets/delete-black.svg);
+    background-size: contain;
+    border: none;
+}
+.delete-button:hover{
+    background: url(../assets/delete-red.svg);
+    background-size: contain;
+}
+
+.unmarked-button {
+    width: 30px;
+    height: 30px;
+
+    margin : 0 10px;
+
+    background: url(../assets/unmarked-black.svg);
+    background-size: contain;
+    border: none;
+}
+.unrmarked-button:hover{
+    background: url(../assets/unmarked-red.svg);
+    background-size: contain;
+}
+
+.book-ongoing{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 20px;
+}
+
+.book-done{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.book-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 400px;
+    height: 100px;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+
+    background-color: #e2c798;
+    /* box-shadow: -4px -4px 55px -4px rgba(0,0,0,0.33); */
+}
+
 
 footer{
     display: flex;
@@ -164,6 +250,12 @@ footer{
 
 footer .copyright{
     color: white;
+}
+
+footer .copyright a{
+    color: white;
+    text-decoration: none;
+    font-size: xx-small;
 }
 
 .hidden {
