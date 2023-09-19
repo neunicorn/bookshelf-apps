@@ -100,16 +100,38 @@ function makeBookShelf(books) {
   return container;
 }
 
-function markedBook(id) {}
+function markedBook(id) {
+  const book = findBook(id);
+  if (!book) return;
+
+  book.isComplete = true;
+  saveBook();
+  document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
+}
 
 function unmarkedBook(id) {}
 
 function deleteBook(id) {}
+
+function findBook(id) {
+  for (const book of books) {
+    if (book.id === id) {
+      return book;
+    }
+  }
+
+  return null;
+}
 // memasukan buku dari local storage ke array books ketika halaman di load
 window.addEventListener("load", () => {
   const booksJSON = localStorage.getItem(BOOK_LOCAL_STORAGE_KEY);
+
+  let data = JSON.parse(booksJSON);
+
   if (booksJSON !== null) {
-    books = JSON.parse(booksJSON);
+    for (const book of data) {
+      books.push(book);
+    }
   }
   document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 });
@@ -131,11 +153,11 @@ document.addEventListener(RENDER_BOOKS_EVENT, () => {
     document.getElementById("book-empty").classList.remove("hidden");
   }
 
-  if (!books.includes(true)) {
-    document.getElementById("book-done").classList.add("hidden");
-  } else {
-    document.getElementById("book-done").classList.remove("hidden");
-  }
+  //   if (!books.includes(true)) {
+  //     document.getElementById("book-done").classList.add("hidden");
+  //   } else {
+  //     document.getElementById("book-done").classList.remove("hidden");
+  //   }
 
   //   if (!books.includes(false)) {
   //     document.getElementById("book-ongoing").classList.add("hidden");
