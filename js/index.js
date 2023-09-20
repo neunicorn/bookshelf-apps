@@ -14,12 +14,12 @@ function isStorageExist() {
 function generateId() {
   return +new Date();
 }
-function generateBook(id, judul, penulis, tahun, isComplete) {
+function generateBook(id, title, author, year, isComplete) {
   return {
     id,
-    judul,
-    penulis,
-    tahun,
+    title,
+    author,
+    year,
     isComplete,
   };
 }
@@ -32,10 +32,9 @@ function addBook() {
   let book = generateBook(generateId(), judul, penulis, tahun, false);
 
   books.push(book);
-  console.log(books);
-  saveBook();
 
   document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
+  saveBook();
 }
 
 function saveBook() {
@@ -43,19 +42,20 @@ function saveBook() {
 
   const booksJSON = JSON.stringify(books);
   localStorage.setItem(BOOK_LOCAL_STORAGE_KEY, booksJSON);
+  document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 }
 
 function makeBookShelf(books) {
-  const { id, judul, penulis, tahun, isComplete } = books;
+  const { id, title, author, year, isComplete } = books;
 
   const judulBuku = document.createElement("h3");
-  judulBuku.innerText = judul;
+  judulBuku.innerText = title;
 
   const penulisBuku = document.createElement("p");
-  penulisBuku.innerText = penulis;
+  penulisBuku.innerText = author;
 
   const tahunBuku = document.createElement("p");
-  tahunBuku.innerText = tahun;
+  tahunBuku.innerText = year;
 
   const textContainer = document.createElement("div");
   textContainer.classList.add("text-container");
@@ -109,9 +109,24 @@ function markedBook(id) {
   document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 }
 
-function unmarkedBook(id) {}
+function unmarkedBook(id) {
+  const book = findBook(id);
+  if (!book) return;
 
-function deleteBook(id) {}
+  book.isComplete = false;
+  saveBook();
+  document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
+}
+
+function deleteBook(id) {
+  const bookIndex = books.findIndex((book) => book.id === id);
+  console.log("masuk kesini");
+  if (bookIndex === -1) return;
+
+  books.splice(bookIndex, 1);
+  saveBook();
+  document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
+}
 
 function findBook(id) {
   for (const book of books) {
@@ -122,16 +137,22 @@ function findBook(id) {
 
   return null;
 }
-// memasukan buku dari local storage ke array books ketika halaman di load
-window.addEventListener("load", () => {
+
+function loadDataFromStorage() {
   const booksJSON = localStorage.getItem(BOOK_LOCAL_STORAGE_KEY);
 
   let data = JSON.parse(booksJSON);
-
-  if (booksJSON !== null) {
+  if (data !== null) {
     for (const book of data) {
       books.push(book);
     }
+  }
+}
+
+// memasukan buku dari local storage ke array books ketika halaman di load
+document.addEventListener("DOMContentLoaded", () => {
+  if (isStorageExist()) {
+    loadDataFromStorage();
   }
   document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 });
@@ -144,33 +165,24 @@ document.addEventListener(RENDER_BOOKS_EVENT, () => {
   const bookOngoing = document.getElementById("book-ongoing");
   const bookDone = document.getElementById("book-done");
 
-  //   bookOngoing.innerHTML = "";
-  //   bookDone.innerHTML = "";
+  const bookOngoingList = document.getElementById("book-ongoing-list");
+  const bookDoneList = document.getElementById("book-done-list");
 
-  if (books.length !== 0) {
-    document.getElementById("book-empty").classList.add("hidden");
-  } else {
-    document.getElementById("book-empty").classList.remove("hidden");
-  }
+  bookOngoingList.innerHTML = "";
+  bookDoneList.innerHTML = "";
 
-  //   if (!books.includes(true)) {
-  //     document.getElementById("book-done").classList.add("hidden");
-  //   } else {
-  //     document.getElementById("book-done").classList.remove("hidden");
-  //   }
-
-  //   if (!books.includes(false)) {
-  //     document.getElementById("book-ongoing").classList.add("hidden");
-  //   } else {
-  //     document.getElementById("book-ongoing").classList.remove("hidden");
-  //   }
+  // if (books.length !== 0) {
+  //   document.getElementById("book-empty").classList.add("hidden");
+  // } else {
+  //   document.getElementById("book-empty").classList.remove("hidden");
+  // }
 
   for (const book of books) {
     const bookElement = makeBookShelf(book);
     if (book.isComplete) {
-      bookDone.append(bookElement);
+      bookDoneList.append(bookElement);
     } else {
-      bookOngoing.append(bookElement);
+      bookOngoingList.append(bookElement);
     }
   }
 });

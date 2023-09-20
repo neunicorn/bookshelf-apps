@@ -201,7 +201,7 @@ button:hover {
     background-size: contain;
     border: none;
 }
-.unrmarked-button:hover{
+.unmarked-button:hover{
     background: url(../assets/unmarked-red.svg);
     background-size: contain;
 }
@@ -213,12 +213,25 @@ button:hover {
 
     margin: 20px;
 }
+.book-ongoing-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 10px 0;
+}
 
 .book-done{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px;
+}
+.book-done-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
 }
 
 .book-container{
@@ -234,7 +247,6 @@ button:hover {
     border-radius: 10px;
 
     background-color: #e2c798;
-    /* box-shadow: -4px -4px 55px -4px rgba(0,0,0,0.33); */
 }
 
 
