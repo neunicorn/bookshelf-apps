@@ -11,21 +11,6 @@ function isStorageExist() {
   return true;
 }
 
-// function addBook() {
-//   const judul = document.getElementById("judul").value;
-//   const penulis = document.getElementById("penulis").value;
-//   const tahun = document.getElementById("tahun").value;
-
-//   loadDataFromStorage();
-
-//   let book = generateBook(generateId(), judul, penulis, tahun, false);
-
-//   books.push(book);
-//   document.dispatchEvent(new Event(RENDER_EVENT));
-
-//   saveBook();
-// }
-
 function saveBook() {
   if (!isStorageExist()) return;
 
@@ -149,6 +134,8 @@ function loadDataFromStorage() {
 function checkBooks() {
   if (books.length !== 0) {
     document.getElementById("book-empty").style.display = "none";
+  } else {
+    document.getElementById("book-empty").style.display = "block";
   }
 }
 
@@ -193,6 +180,7 @@ function searchFeature() {
     }
   }
 }
+
 // memasukan buku dari local storage ke array books ketika halaman di load
 document.addEventListener("DOMContentLoaded", () => {
   if (isStorageExist()) {

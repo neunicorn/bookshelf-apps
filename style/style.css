@@ -44,7 +44,6 @@ ul {
     justify-content: space-around;
     align-items: center;
     width: 30%;
-    /* height: 100%; */
 }
 
 
@@ -149,7 +148,7 @@ button:hover {
     box-shadow: -4px -4px 55px -4px rgba(0,0,0,0.33);
     flex-direction: row;
     justify-content: center;
-    min-width: 800px;
+    min-width: 900px;
     min-height: 500px;
     border-radius: 10px;
     background-color: #e5d3b3;
