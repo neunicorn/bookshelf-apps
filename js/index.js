@@ -11,33 +11,20 @@ function isStorageExist() {
   return true;
 }
 
-function generateId() {
-  return +new Date();
-}
-function generateBook(id, title, author, year, isComplete) {
-  return {
-    id,
-    title,
-    author,
-    year,
-    isComplete,
-  };
-}
+// function addBook() {
+//   const judul = document.getElementById("judul").value;
+//   const penulis = document.getElementById("penulis").value;
+//   const tahun = document.getElementById("tahun").value;
 
-function addBook() {
-  const judul = document.getElementById("judul").value;
-  const penulis = document.getElementById("penulis").value;
-  const tahun = document.getElementById("tahun").value;
+//   loadDataFromStorage();
 
-  loadDataFromStorage();
+//   let book = generateBook(generateId(), judul, penulis, tahun, false);
 
-  let book = generateBook(generateId(), judul, penulis, tahun, false);
+//   books.push(book);
+//   document.dispatchEvent(new Event(RENDER_EVENT));
 
-  books.push(book);
-  document.dispatchEvent(new Event(RENDER_EVENT));
-
-  saveBook();
-}
+//   saveBook();
+// }
 
 function saveBook() {
   if (!isStorageExist()) return;
@@ -161,26 +148,29 @@ function loadDataFromStorage() {
 
 function checkBooks() {
   if (books.length !== 0) {
-    document.getElementById("book-empty").classList.add("hidden");
-  } else {
-    document.getElementById("book-empty").classList.remove("hidden");
+    document.getElementById("book-empty").style.display = "none";
   }
 }
 
 function checkBooksOngoing() {
   const isBookOngoing = books.some((book) => book.isComplete === false);
   console.log(isBookOngoing);
-  if (isBookOngoing) {
+  if (!isBookOngoing) {
     const containerOnGoing = document.getElementById("book-ongoing");
-    containerOnGoing.classList.remove("hidden");
+    containerOnGoing.style.display = "none";
+  } else {
+    const containerOnGoing = document.getElementById("book-ongoing");
+    containerOnGoing.style.display = "flex";
   }
 }
 
 function checkBooksDone() {
   const isBookDone = books.some((book) => book.isComplete === true);
   console.log(isBookDone);
-  if (isBookDone) {
-    document.getElementById("book-done").classList.remove("hidden");
+  if (!isBookDone) {
+    document.getElementById("book-done").style.display = "none";
+  } else {
+    document.getElementById("book-done").style.display = "flex";
   }
 }
 
@@ -211,10 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.dispatchEvent(new Event(RENDER_BOOKS_EVENT));
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("submit").addEventListener("click", addBook);
-});
-
 document.addEventListener(RENDER_BOOKS_EVENT, () => {
   checkBooks();
   checkBooksOngoing();
@@ -224,6 +210,7 @@ document.addEventListener(RENDER_BOOKS_EVENT, () => {
   const bookDoneList = document.getElementById("book-done-list");
 
   bookOngoingList.innerHTML = "";
+
   bookDoneList.innerHTML = "";
 
   for (const book of books) {
@@ -236,4 +223,5 @@ document.addEventListener(RENDER_BOOKS_EVENT, () => {
   }
 });
 
+document.getElementById("search").addEventListener("keyup", searchFeature);
 document.getElementById("search").addEventListener("keydown", searchFeature);
